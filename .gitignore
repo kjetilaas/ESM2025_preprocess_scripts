@@ -1,0 +1,8 @@
+gnore files with .pyc extension
+*.pyc
+
+# ignore directories named __pycache__
+__pycache__/
+
+#virtual env
+basic_python_env
