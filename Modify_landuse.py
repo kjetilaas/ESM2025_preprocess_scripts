@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 import numpy as np
-import xarray as xr
 import netCDF4 as nc
 import subprocess
 import os
 import Plot_LU
+import Plot_Surf
 
 from matplotlib import pyplot as plt
 
@@ -32,17 +32,37 @@ Plot_LU.plot_land_use_data(ds_LU, ds_isimip, 164, 'Crop_maps' )
 ds_LUnew=ds_LU
 pct_crop_old=ds_surf['PCT_CROP'][:]
 
-pct_cropISIMIP = ds_isimip['cropland_total'][:]
-pct_cropISIMIPNoNan = np.where(pct_cropISIMIP>1., 0, pct_cropISIMIP)
+frac_cropISIMIP = ds_isimip['cropland_total'][:]
+frac_cropISIMIP = np.where(frac_cropISIMIP>1., 0, frac_cropISIMIP)
+frac_cropISIMIP = np.where(frac_cropISIMIP<0., 0, frac_cropISIMIP)
 
-ds_surf['PCT_CROP'][:]=pct_cropISIMIPNoNan[0,:,:] * 100 
-ds_surf['PCT_NATVEG'][:]=ds_surf['PCT_NATVEG']+pct_crop_old-ds_surf['PCT_CROP'][:]
-ds_LU['PCT_CROP'][0:-1,:,:].values=pct_cropISIMIPNoNan * 100 
+pct_crop = ds_surf['PCT_CROP'][:]    
+pct_natveg = ds_surf['PCT_NATVEG'][:]    
+pct_lake = ds_surf['PCT_LAKE'][:]  
+pct_glacier = ds_surf['PCT_GLACIER'][:]  
+pct_urban = ds_surf['PCT_URBAN'][:]  
+sum_urb = np.sum(pct_urban, axis=0)
+sum_all = pct_natveg + pct_crop + pct_lake + pct_glacier + sum_urb
+pct_natcrop = pct_natveg + pct_crop
+# overwrite pct_crop, only where original file had nat+crop>0
+pct_cropnew = frac_cropISIMIP[0,:,:] * 100
+pct_cropnew = np.where(pct_natcrop>=pct_cropnew, pct_cropnew, pct_crop)
+ds_surf['PCT_CROP'][:] = pct_cropnew
+# update pct_natveg, consistent with all pct
+ds_surf['PCT_NATVEG'][:] =  sum_all - pct_cropnew - pct_lake - pct_glacier - sum_urb
+
+# update landuse timeseries
+pct_cropLU = ds_LU['PCT_CROP'][:]    
+pct_cropnewLU = frac_cropISIMIP * 100 
+pct_cropnewLU = np.where(pct_natcrop>=pct_cropnewLU, pct_cropnewLU, pct_cropLU[-1,:,:])
+ds_LU['PCT_CROP'][0:-1,:,:]=pct_cropnewLU
 ds_LU['PCT_CROP'][-1,:,:]=ds_LU['PCT_CROP'][-2,:,:]
 
 # Plot modified files
 Plot_LU.plot_land_use_data(ds_LU, ds_isimip, 0, 'Crop_maps_AfterModify' )
 Plot_LU.plot_land_use_data(ds_LU, ds_isimip, 164, 'Crop_maps_AfterModify' ) 
+
+Plot_Surf.plot_surface(ds_surf,'Surf_AfterModify')
 
 # Save the modified NetCDF file
 ds_LU.close()
