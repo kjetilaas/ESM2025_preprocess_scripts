@@ -4,7 +4,7 @@
 module load CDO/1.9.8-intel-2019b
 
 # Define common file path parts
-input_dir=/cluster/shared/noresm/inputdata
+input_dir=/cluster/shared/noresm/inputdata/
 output_dir=/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/
 lu_file=lnd/clm2/surfdata_map/landuse.timeseries_1.9x2.5_hist_78pfts_CMIP6_simyr1850-2015_c170824.nc
 surf_file=lnd/clm2/surfdata_map/release-clm5.0.18/surfdata_1.9x2.5_hist_78pfts_CMIP6_simyr1850_c190304.nc

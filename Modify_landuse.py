@@ -29,9 +29,6 @@ Plot_LU.plot_land_use_data(ds_LU, ds_isimip, 164, 'Crop_maps' )
 # map isimip crop types to clm input data
 # so far only using total crop area, so only need to modify PCT_CROP
 
-ds_LUnew=ds_LU
-pct_crop_old=ds_surf['PCT_CROP'][:]
-
 frac_cropISIMIP = ds_isimip['cropland_total'][:]
 frac_cropISIMIP = np.where(frac_cropISIMIP>1., 0, frac_cropISIMIP)
 frac_cropISIMIP = np.where(frac_cropISIMIP<0., 0, frac_cropISIMIP)
