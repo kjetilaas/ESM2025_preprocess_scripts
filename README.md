@@ -3,6 +3,8 @@ Repo with scripts to modify CLM input files to match ISIMIP input files for ESM2
 
 ### CO2 (Modify_CO2.py)
 - overwrite co2 timeseries
+- Check constant co2 value for spinup. Default: 284.7. New (year 1850 value): 284.7. 
+    - -> No need to change
 
 ### Surface and Land Use data (Modify_landuse.py)
 - Remap original (0.5 deg) isimip LU file to 1.9x2.5 grid (defined in gridfile.txt)
@@ -31,3 +33,5 @@ Repo with scripts to modify CLM input files to match ISIMIP input files for ESM2
 - Remap isimip to 0.9x1.25 clm input grid.
 - Overwrite monthly ndep data in clm input file
 - Set other ndep values to -9999 (to make sure they are not used)
+- Make new average file for spinup:
+    -  "cdo ymonavg -seltimestep,13/252 -shifttime,-19years fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ensmean_1849-2015_monthly_0.9x1.25_ESM2025.nc fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ymonavg_1850-1869_monthly_0.9x1.25_ESM2025.nc"
