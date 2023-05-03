@@ -8,7 +8,7 @@ module load CDO/1.9.8-intel-2019b NCO/4.9.3-intel-2019b
 
 # Define common file path parts
 input_dir=/cluster/shared/noresm/inputdata/
-output_dir=/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/
+output_dir=${USERWORK}/isimip_forc/Ohter_modified_files/
 ndep_file=lnd/clm2/ndepdata/fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ensmean_1849-2015_monthly_0.9x1.25_c180926.nc
 isimip_dir=/cluster/shared/noresm/isimip_data/ndep/
 

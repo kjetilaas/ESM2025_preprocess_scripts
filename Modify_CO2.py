@@ -4,11 +4,12 @@ import numpy as np
 import xarray as xr
 import shutil
 import netCDF4 as nc
+import os
 from matplotlib import pyplot as plt
 
 # define file name
 orgco2_file = '/cluster/shared/noresm/inputdata/atm/datm7/CO2/fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
-newco2_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/fco2_datm_global_simyr_1750-2014_CMIP6_ESM2025.nc'
+newco2_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/fco2_datm_global_simyr_1750-2014_CMIP6_ESM2025.nc'
 
 # copy file
 shutil.copy(orgco2_file, newco2_file)
