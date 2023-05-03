@@ -10,6 +10,7 @@ from matplotlib import pyplot as plt
 orgpop_file = '/cluster/shared/noresm/inputdata/lnd/clm2/firedata/clmforc.Li_2017_HYDEv3.2_CMIP6_hdm_0.5x0.5_AVHRR_simyr1850-2016_c180202.nc'
 static_file = '/cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/surfdata_360x720cru_16pfts_CMIP6_simyr2000_c170706.nc'
 isimip_file = '/cluster/shared/noresm/isimip_data/population/population_histsoc_30arcmin_annual_1901_2014.nc'
+# this sould be moved into somewhere shared
 isimip2_file = '/cluster/home/kjetisaa/ESM2025_input/Div_files/population_histsoc_30arcmin_annual_1901_2020.nc'
 # copy file
 #shutil.copy(orgpop_file, newpop_file)

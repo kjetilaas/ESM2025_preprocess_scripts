@@ -13,9 +13,9 @@ from matplotlib import pyplot as plt
 subprocess.call("./CopyAndRemapLU.sh", shell=True)
 
 # define file names
-new_landuse_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/landuse.timeseries_1.9x2.5_hist_78pfts_CMIP6_simyr1850-2015_ESM2025.nc'
-new_surface_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/surfdata_1.9x2.5_hist_78pfts_CMIP6_simyr1850_ESM2025.nc'
-isimip_LUtotals_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/landuse-totals_histsoc_1.9x2.5deg_annual_1850_2014.nc'
+new_landuse_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/landuse.timeseries_1.9x2.5_hist_78pfts_CMIP6_simyr1850-2015_ESM2025.nc'
+new_surface_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/surfdata_1.9x2.5_hist_78pfts_CMIP6_simyr1850_ESM2025.nc'
+isimip_LUtotals_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/landuse-totals_histsoc_1.9x2.5deg_annual_1850_2014.nc'
 
 # load the dataset
 ds_LU = nc.Dataset(new_landuse_file, mode='r+')

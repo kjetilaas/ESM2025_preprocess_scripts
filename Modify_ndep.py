@@ -2,12 +2,13 @@
 
 import numpy as np
 import netCDF4 as nc
+import os
 import subprocess
 
 # define file name
-CLMndep_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ensmean_1849-2015_monthly_0.9x1.25_ESM2025.nc'
-CLMndep1850_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ymonavg_1850-1869_monthly_0.9x1.25_ESM2025.nc'
-isimipndep_file_ =  '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/ndep_isimip_0.9x1.25_1850_2021_days.nc'
+CLMndep_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ensmean_1849-2015_monthly_0.9x1.25_ESM2025.nc'
+CLMndep1850_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/fndep_clm_hist_b.e21.BWHIST.f09_g17.CMIP6-historical-WACCM.ymonavg_1850-1869_monthly_0.9x1.25_ESM2025.nc'
+isimipndep_file_ =  os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/ndep_isimip_0.9x1.25_1850_2021_days.nc'
 
 # copy and remap files with separate shell scrip
 subprocess.call("./CopyAndRemapNDEP.sh", shell=True) 

@@ -4,11 +4,12 @@ import numpy as np
 import xarray as xr
 import shutil
 import netCDF4 as nc
+import os
 from matplotlib import pyplot as plt
 
 # define file name
 orgco2_file = '/cluster/shared/noresm/inputdata/atm/datm7/CO2/fco2_datm_global_simyr_1750-2014_CMIP6_c180929.nc'
-newco2_file = '/cluster/work/users/kjetisaa/isimip_forc/Ohter_modified_files/fco2_datm_global_simyr_1750-2014_CMIP6_ESM2025.nc'
+newco2_file = os.environ.get('USERWORK')+'/isimip_forc/Ohter_modified_files/fco2_datm_global_simyr_1750-2014_CMIP6_ESM2025.nc'
 
 # copy file
 shutil.copy(orgco2_file, newco2_file)
@@ -19,7 +20,7 @@ ds_nc = nc.Dataset(newco2_file, mode='r+')
 co2 = ds_nc.variables['CO2']
 
 # Load the TXT file
-txt_file = '../From_Spirit/co2/co2_historical_annual_1850_2014.txt'
+txt_file = '/cluster/shared/noresm/isimip_data/co2/co2_historical_annual_1850_2014.txt'
 with open(txt_file) as f:
     co2_isimip = np.loadtxt(f)
 

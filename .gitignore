@@ -6,3 +6,6 @@ __pycache__/
 
 #virtual env
 basic_python_env
+
+#ignore figures
+Figures/*.png
