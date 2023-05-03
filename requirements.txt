@@ -1,0 +1,4 @@
+matplotlib
+netCDF4==1.6.3
+numpy==1.24.3
+xarray==2022.11.0
