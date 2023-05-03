@@ -20,7 +20,7 @@ ds_nc = nc.Dataset(newco2_file, mode='r+')
 co2 = ds_nc.variables['CO2']
 
 # Load the TXT file
-txt_file = '../From_Spirit/co2/co2_historical_annual_1850_2014.txt'
+txt_file = '/cluster/shared/noresm/isimip_data/co2/co2_historical_annual_1850_2014.txt'
 with open(txt_file) as f:
     co2_isimip = np.loadtxt(f)
 
