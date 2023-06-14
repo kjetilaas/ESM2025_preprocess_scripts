@@ -3,9 +3,6 @@
 # Load CDO
 module load CDO/1.9.8-intel-2019b NCO/4.9.3-intel-2019b
 
-
-
-
 # Define common file path parts
 input_dir=/cluster/shared/noresm/inputdata/
 output_dir=${USERWORK}/isimip_forc/Ohter_modified_files/
