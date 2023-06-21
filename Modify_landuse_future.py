@@ -9,11 +9,12 @@ import Plot_LU
 from matplotlib import pyplot as plt
 
 # define scenario and experiment
-ssp_name1 = 'ssp370' #ssp126, ssp370
-ssp_name2 = 'SSP3-7.0' # SSP1-2.6, SSP3-7.0
+ssp_name1 = 'ssp126' #ssp126, ssp370
+ssp_name2 = 'SSP1-2.6' # SSP1-2.6, SSP3-7.0
 
 #exp_name = 'noluc' # noluc, agtonat, agtoaff, nattoaff, agtobio, nattobio
-exp_names = ['noluc', 'agtonat', 'agtoaff', 'nattoaff', 'agtobio', 'nattobio']
+#exp_names = ['noluc', 'agtonat', 'agtoaff', 'nattoaff', 'agtobio', 'nattobio']
+exp_names = ['nattobio']
 for i_exp, exp_name in enumerate (exp_names):
     # define file names
     org_landuse_file = '/cluster/shared/noresm/inputdata/lnd/clm2/surfdata_map/release-clm5.0.18/landuse.timeseries_1.9x2.5_' + ssp_name2 + '_78pfts_CMIP6_simyr1850-2100_c190228.nc'
@@ -76,9 +77,9 @@ for i_exp, exp_name in enumerate (exp_names):
         for i in range(9,15):
             natpft_2015[0,i,:,:] = np.where((pctcrop_2015>5.0) & (pct_nonforest>addforest),natpft_2015[0,i,:,:] - addforest*(natpft_2015[0,i,:,:]/pct_nonforest), natpft_2015[0,i,:,:])
 
-        #special treatment of no-forrest grid-cells. Put all addforest into BET Tropical (-40<lat<40) or NET Boreal 
-        natpft_2015[0,2,:,:] = np.where((abs(lat)>40) & (landfrac>0.0) & (pctcrop_2015>5.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,2,:,:] + addforest, natpft_2015[0,2,:,:])
-        natpft_2015[0,4,:,:] = np.where((abs(lat)<=40) & (landfrac>0.0) & (pctcrop_2015>5.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,4,:,:] + addforest, natpft_2015[0,4,:,:])
+        #special treatment of no-forrest grid-cells. Put all addforest into BET Tropical (-37<lat<37) or NET Boreal 
+        natpft_2015[0,2,:,:] = np.where((abs(lat)>37) & (landfrac>0.0) & (pctcrop_2015>5.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,2,:,:] + addforest, natpft_2015[0,2,:,:])
+        natpft_2015[0,4,:,:] = np.where((abs(lat)<=37) & (landfrac>0.0) & (pctcrop_2015>5.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,4,:,:] + addforest, natpft_2015[0,4,:,:])
 
         # reduce crop area with 5 pct
         pctcrop_2015 = np.where((pctcrop_2015>5.0) & (pct_nonforest>addforest) ,pctcrop_2015 - 5.0, pctcrop_2015)  
@@ -96,9 +97,9 @@ for i_exp, exp_name in enumerate (exp_names):
         for i in range(9,15):
             natpft_2015[0,i,:,:] = np.where((landfrac>0.0) & (pct_nonforest>addforest),natpft_2015[0,i,:,:] - addforest*(natpft_2015[0,i,:,:]/pct_nonforest), natpft_2015[0,i,:,:])
 
-        #special treatment of no-forrest grid-cells. Put all addforest into BET Tropical (-40<lat<40) or NET Boreal 
-        natpft_2015[0,2,:,:] = np.where((abs(lat)>40) & (landfrac>0.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,2,:,:] + addforest, natpft_2015[0,2,:,:])
-        natpft_2015[0,4,:,:] = np.where((abs(lat)<=40) & (landfrac>0.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,4,:,:] + addforest, natpft_2015[0,4,:,:])
+        #special treatment of no-forrest grid-cells. Put all addforest into BET Tropical (-37<lat<37) or NET Boreal 
+        natpft_2015[0,2,:,:] = np.where((abs(lat)>37) & (landfrac>0.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,2,:,:] + addforest, natpft_2015[0,2,:,:])
+        natpft_2015[0,4,:,:] = np.where((abs(lat)<=37) & (landfrac>0.0) & (pct_nonforest>addforest) & (pct_forest==0.0),natpft_2015[0,4,:,:] + addforest, natpft_2015[0,4,:,:])
 
     elif exp_name == 'agtobio': #Conversion of agricultural land to bioenergy
         print('agtobio')
@@ -120,18 +121,18 @@ for i_exp, exp_name in enumerate (exp_names):
         #Keep PFT dist. PCT_CROP + 5 %. Modify PCT_CFT.
 
         # change pct_crop (implicitly changing pct_natveg), keeping pft and cft distributions
-        pctcrop_2015 = np.where(pct_forest+pct_nonforest>5.0,pctcrop_2015 + 5.0, pctcrop_2015)  
+        pctcrop_2015 = np.where((landfrac>0.0) & (pct_natveg>5.0),pctcrop_2015 + 5.0, pctcrop_2015)  
         
         addbio = 100 * 5.0/pctcrop_2015
 
         # subtract area from all (other) cfts
         for i in range(0, 64):
             #print('i='+str(i))    
-            pctcft_2015[0,i,:,:] = np.where((pct_forest+pct_nonforest>5.0) ,np.maximum(0 , pctcft_2015[0,i,:,:] - addbio*(pctcft_2015[0,i,:,:]/100)), pctcft_2015[0,i,:,:])
+            pctcft_2015[0,i,:,:] = np.where((landfrac>0.0) & (pct_natveg>5.0) ,np.maximum(0 , pctcft_2015[0,i,:,:] - addbio*(pctcft_2015[0,i,:,:]/100)), pctcft_2015[0,i,:,:])
 
         # add area to irr miscanthus
         i=71-14    
-        pctcft_2015[0,i,:,:] = np.where(pct_forest+pct_nonforest>5.0 ,pctcft_2015[0,i,:,:] + addbio, pctcft_2015[0,i,:,:])
+        pctcft_2015[0,i,:,:] = np.where((landfrac>0.0) & (pct_natveg>5.0) ,pctcft_2015[0,i,:,:] + addbio, pctcft_2015[0,i,:,:])
 
     else: 
         print('No exp_name match')
